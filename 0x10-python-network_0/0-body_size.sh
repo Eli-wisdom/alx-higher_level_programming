@@ -1,12 +1,14 @@
-# Use curl to send a request and store the response in a temporary file
-response_file=$(mktemp)
-curl -sS "$url" > "$response_file"
+#!/bin/bash
 
-# Get the size of the response body in bytes
-size_in_bytes=$(stat --printf="%s" "$response_file")
+# Set the URL
+url="https://www.example.com"
 
-# Display the size
-echo "Size of the response body: $size_in_bytes bytes"
+# Set the output file
+output_file="response.txt"
 
-# Clean up: Remove the temporary file
-rm "$response_file"
+# Make a GET request, save the response to a file, and display the size
+size=$(curl -sS -o "$output_file" -w "%{size_download}" "$url")
+
+echo $size
+
+
