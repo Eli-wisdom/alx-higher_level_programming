@@ -1,17 +1,22 @@
 #!/usr/bin/python3
-"""valuates candidates applying for a back-end"""
+"""Lists 10 commits from the most recent to the oldest
+of the repository "rails" by the user rails
+"""
 
-if __name__ == 'main':
-	import sys
-	import requests
+import sys
+import requests
 
-	url ='https://api.github.com/repos/{}/{}/commits'.format(
-        sys.argv[2], sys.argv[1])
-	try:
-		response = requests.get(url)
-		res_dict = response.json()
-		for i in range(0,10):
-			print("{}: {}".format(res_dict[i].get('sha'), res_dict[i].get(
-                'commit').get('author').get('name')))
-	except Exception:
-		pass
+if __name__ == "__main__":
+    repo_name = sys.argv[1]
+    owner = sys.argv[2]
+    url = 'https://api.github.com/repos/{}/{}/commits'.format(owner, repo_name)
+
+    request = requests.get(url)
+    commits = request.json()
+    try:
+        for i in range(10):
+            print('{}: {}'.format(
+                commits[i].get('sha'),
+                commits[i].get('commit').get('author').get('name')))
+    except IndexError:
+        pass
